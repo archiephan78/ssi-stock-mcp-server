@@ -850,7 +850,6 @@ def setup_environment():
         return False
     if config.consumerID and config.consumerSecret:
         print("  Authentication: Using secret key")
-        print("  Authentication: None (no credentials provided)")
     return True
 
 def run_server():

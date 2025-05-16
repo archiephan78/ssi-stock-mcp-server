@@ -23,9 +23,9 @@ USER app
 EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8000/health || exit 1
-CMD ["/app/.venv/bin/mcp-ssi-stock-server"]
+CMD ["/app/.venv/bin/ssi-stock-mcp-server"]
 
 LABEL org.opencontainers.image.title="SSI Stock intraday data MCP Server" \
     org.opencontainers.image.version="0.0.1" \
-    org.opencontainers.image.source="https://github.com/archiephan78/ssi-intraday-mcp-server" \
+    org.opencontainers.image.source="https://github.com/archiephan78/ssi-stock-mcp-server" \
     org.opencontainers.image.licenses="Apache 2" \
