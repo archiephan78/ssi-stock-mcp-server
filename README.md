@@ -101,9 +101,9 @@ FC_DATA_CONSUMER_SECRET=your_consumer_secret
   - "so sánh vol của SSI với VND trong ngày hôm nay"
   - "total matchvol của SSI trong 1 tuần trở lại đây"
 
-![](./images/sample1.jpg)
+![](./images/image-1.png)
 
-![](./images/sample2.jpg)
+![](./images/image-2.png)
 
 ### 3.3. Docker Run
 
