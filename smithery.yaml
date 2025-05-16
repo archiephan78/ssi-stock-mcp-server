@@ -1,0 +1,24 @@
+# Smithery configuration file: https://smithery.ai/docs/build/project-config
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - FC_DATA_CONSUMER_ID
+      - FC_DATA_CONSUMER_SECRET
+    properties:
+      FC_DATA_CONSUMER_ID:
+        type: string
+        description: Consumer ID of the SSI Stock API server
+      FC_DATA_CONSUMER_SECRET:
+        type: string
+        description: Consumer secret of the SSI Stock API server
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({ command: 'ssi-stock-mcp-server', env: { FC_DATA_CONSUMER_ID: config.consumerID, FC_DATA_CONSUMER_SECRET: config.consumerSecret } })
+  exampleConfig:
+    FC_DATA_CONSUMER_ID: your_consumer_id
+    FC_DATA_CONSUMER_SECRET: your_api_key
