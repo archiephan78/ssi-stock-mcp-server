@@ -36,7 +36,7 @@ SSI Stock Data MCP is a [Model Context Protocol](https://modelcontextprotocol.io
 - [x] Retrieve the daily trading results of the composite index
 - [x] Retrieve the daily trading information of a stock code
 - [x] Docker containerization support
-- [ ] Support get realtime data via streaming (planning)
+- [ ] Support get realtime data via streaming adapter (planning)
 - [ ] Support order management and trading via MCP (future consideration)
 
 ## 3. Quickstart
