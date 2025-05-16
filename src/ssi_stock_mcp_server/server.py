@@ -2,7 +2,6 @@ import logging
 import os
 from typing import Dict
 from dataclasses import dataclass
-# from mcp import tool
 from mcp.server.fastmcp import FastMCP
 from ssi_fc_data import fc_md_client, model
 import dotenv
@@ -53,20 +52,12 @@ def _process_securities_response(response: Dict) -> Dict:
     Raises:
         ValueError: If the response format is invalid
     """
-    # Validate response format
     if not isinstance(response, dict):
         raise ValueError("Invalid response format")
-        
-    # Process status code
     if response.get("status") != 200:
         logger.warning(f"API returned non-success status: {response.get('status')}")
-        
-    # Ensure data is always a list
     if "data" not in response or not isinstance(response["data"], list):
         response["data"] = []
-        
-    # Add additional processing if needed
-    
     return response
     
 @mcp.tool(
@@ -193,15 +184,10 @@ def _process_securities_details_response(response: Dict) -> Dict:
     Raises:
         ValueError: If the response format is invalid
     """
-    # Validate response format
     if not isinstance(response, dict):
         raise ValueError("Invalid response format")
-        
-    # Process status code
     if response.get("status") != 200:
         logger.warning(f"API returned non-success status: {response.get('status')}")
-        
-    # Ensure data structure is valid
     if "data" not in response:
         response["data"] = {"repeatedinfoList": []}
     elif not isinstance(response["data"], dict):
@@ -210,8 +196,6 @@ def _process_securities_details_response(response: Dict) -> Dict:
         response["data"] = {"repeatedinfoList": []}
         if isinstance(old_data, list) and len(old_data) > 0:
             response["data"]["repeatedinfoList"] = old_data
-            
-    # Ensure repeatedinfoList exists and is a list
     if "repeatedinfoList" not in response["data"] or not isinstance(response["data"]["repeatedinfoList"], list):
         response["data"]["repeatedinfoList"] = []
         
@@ -275,31 +259,18 @@ def _process_index_components_response(response: Dict) -> Dict:
     Raises:
         ValueError: If the response format is invalid
     """
-    # Validate response format
-    if not isinstance(response, dict):
-        raise ValueError("Invalid response format")
-        
-    # Process status code
     if response.get("status") != 200:
         logger.warning(f"API returned non-success status: {response.get('status')}")
-        
-    # Ensure data is always a list
     if "data" not in response or not isinstance(response["data"], list):
         response["data"] = []
-    
-    # Process each index data entry
     for index_data in response["data"]:
-        # Ensure IndexComponent is a list
         if "IndexComponent" not in index_data or not isinstance(index_data["IndexComponent"], list):
             index_data["IndexComponent"] = []
-        
-        # Ensure TotalSymbolNo is consistent with actual component count
         if "IndexComponent" in index_data and "TotalSymbolNo" in index_data:
             actual_count = len(index_data["IndexComponent"])
             if index_data["TotalSymbolNo"] != actual_count:
                 logger.warning(f"TotalSymbolNo ({index_data['TotalSymbolNo']}) doesn't match actual count ({actual_count})")
                 index_data["TotalSymbolNo"] = actual_count
-    
     return response
 
 @mcp.tool(
@@ -353,27 +324,15 @@ def _process_index_list_response(response: Dict) -> Dict:
     Raises:
         ValueError: If the response format is invalid
     """
-    # Validate response format
-    if not isinstance(response, dict):
-        raise ValueError("Invalid response format")
-        
-    # Process status code
     if response.get("status") != 200:
         logger.warning(f"API returned non-success status: {response.get('status')}")
-        
-    # Ensure data is always a list
     if "data" not in response or not isinstance(response["data"], list):
         response["data"] = []
-    
-    # Validate each index item
     for index in response["data"]:
-        # Ensure required fields exist
         for field in ["IndexCode", "IndexName", "Exchange"]:
             if field not in index:
                 logger.warning(f"Missing field {field} in index data")
                 index[field] = ""
-                
-        # Validate Exchange field
         if "Exchange" in index and index["Exchange"] not in ["HOSE", "HNX"]:
             logger.warning(f"Unexpected Exchange value: {index['Exchange']}")
     
@@ -438,33 +397,23 @@ def _process_ohlc_response(response: Dict) -> Dict:
     Raises:
         ValueError: If the response format is invalid
     """
-    # Validate response format
     if not isinstance(response, dict):
         raise ValueError("Invalid response format")
-        
-    # Process status code
     if response.get("status") != 200:
         logger.warning(f"API returned non-success status: {response.get('status')}")
-        
-    # Ensure data is always a list
     if "data" not in response or not isinstance(response["data"], list):
         response["data"] = []
-    
-    # Validate each OHLC data point
     for ohlc_data in response["data"]:
-        # Ensure required fields exist with appropriate types
         if "Symbol" not in ohlc_data:
             logger.warning("Missing Symbol field in OHLC data")
             ohlc_data["Symbol"] = ""
             
-        # Ensure numeric fields are numbers
         for field in ["Open", "High", "Low", "Close", "Volume", "Value"]:
             if field not in ohlc_data:
                 logger.warning(f"Missing {field} field in OHLC data")
                 ohlc_data[field] = 0
             else:
                 try:
-                    # Convert to appropriate numeric type if it's a string
                     if isinstance(ohlc_data[field], str):
                         if field == "Volume":
                             ohlc_data[field] = int(ohlc_data[field])
@@ -537,33 +486,21 @@ def _process_intraday_ohlc_response( response: Dict) -> Dict:
     Raises:
         ValueError: If the response format is invalid
     """
-    # Validate response format
-    if not isinstance(response, dict):
-        raise ValueError("Invalid response format")
-        
-    # Process status code
     if response.get("status") != 200:
         logger.warning(f"API returned non-success status: {response.get('status')}")
-        
-    # Ensure data is always a list
     if "data" not in response or not isinstance(response["data"], list):
         response["data"] = []
-    
-    # Validate each intraday OHLC data point
     for ohlc_data in response["data"]:
         # Ensure required fields exist with appropriate types
         if "Symbol" not in ohlc_data:
             logger.warning("Missing Symbol field in intraday OHLC data")
             ohlc_data["Symbol"] = ""
-            
-        # Ensure numeric fields are numbers
         for field in ["Open", "High", "Low", "Close", "Volume", "Value"]:
             if field not in ohlc_data:
                 logger.warning(f"Missing {field} field in intraday OHLC data")
                 ohlc_data[field] = 0
             else:
                 try:
-                    # Convert to appropriate numeric type if it's a string
                     if isinstance(ohlc_data[field], str):
                         if field == "Volume":
                             ohlc_data[field] = int(ohlc_data[field])
@@ -572,13 +509,9 @@ def _process_intraday_ohlc_response( response: Dict) -> Dict:
                 except (ValueError, TypeError):
                     logger.warning(f"Invalid {field} value: {ohlc_data[field]}")
                     ohlc_data[field] = 0
-        
-        # Ensure Time field is valid
         if "Time" not in ohlc_data:
             logger.warning("Missing Time field in intraday OHLC data")
             ohlc_data["Time"] = 0
-        
-        # Ensure TradingDate field is valid
         if "TradingDate" not in ohlc_data:
             logger.warning("Missing TradingDate field in intraday OHLC data")
             ohlc_data["TradingDate"] = ""
@@ -658,21 +591,15 @@ def _process_daily_index_response( response: Dict) -> Dict:
     Raises:
         ValueError: If the response format is invalid
     """
-    # Validate response format
     if not isinstance(response, dict):
         raise ValueError("Invalid response format")
         
-    # Process status code
     if response.get("status") != 200:
         logger.warning(f"API returned non-success status: {response.get('status')}")
         
-    # Ensure data is always a list
     if "data" not in response or not isinstance(response["data"], list):
         response["data"] = []
-    
-    # Validate each daily index data point
     for index_data in response["data"]:
-        # Ensure required fields exist with appropriate types
         if "Indexcode" not in index_data:
             logger.warning("Missing Indexcode field in daily index data")
             index_data["Indexcode"] = ""
@@ -681,7 +608,6 @@ def _process_daily_index_response( response: Dict) -> Dict:
             logger.warning("Missing IndexName field in daily index data")
             index_data["IndexName"] = ""
 
-        # Ensure numeric fields are numbers
         numeric_fields = [
             "IndexValue", "Change", "RatioChange", "TotalTrade", 
             "Totalmatchvol", "Totalmatchval", "Advances", "Nochanges", 
@@ -695,7 +621,6 @@ def _process_daily_index_response( response: Dict) -> Dict:
                 index_data[field] = 0
             else:
                 try:
-                    # Convert to appropriate numeric type if it's a string
                     if isinstance(index_data[field], str):
                         if field in ["TotalTrade", "Totalmatchvol", "Advances", "Nochanges", 
                                     "Declines", "Ceiling", "Floor", "Totaldealvol", "Totalvol"]:
@@ -705,8 +630,6 @@ def _process_daily_index_response( response: Dict) -> Dict:
                 except (ValueError, TypeError):
                     logger.warning(f"Invalid {field} value: {index_data[field]}")
                     index_data[field] = 0
-        
-        # Ensure TradingDate and Time fields are valid
         if "TradingDate" not in index_data:
             logger.warning("Missing TradingDate field in daily index data")
             index_data["TradingDate"] = ""
@@ -798,21 +721,13 @@ def _process_stock_price_response(response: Dict) -> Dict:
     Raises:
         ValueError: If the response format is invalid
     """
-    # Validate response format
-    if not isinstance(response, dict):
-        raise ValueError("Invalid response format")
-        
-    # Process status code
     if response.get("status") != 200:
         logger.warning(f"API returned non-success status: {response.get('status')}")
-        
-    # Ensure data is always a list
+
     if "data" not in response or not isinstance(response["data"], list):
         response["data"] = []
     
-    # Validate each stock price data point
     for price_data in response["data"]:
-        # Ensure required fields exist
         required_fields = [
             "Symbol", "Tradingdate", "Time", "Pricechange", "Perpricechange",
             "Ceilingprice", "Floorprice", "Refprice", "Openprice", "Highestprice",
