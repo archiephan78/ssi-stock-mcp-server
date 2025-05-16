@@ -6,13 +6,13 @@ startCommand:
     # JSON Schema defining the configuration options for the MCP.
     type: object
     required:
-      - FC_DATA_CONSUMER_ID
-      - FC_DATA_CONSUMER_SECRET
+      - consumerID
+      - consumerSecret
     properties:
-      FC_DATA_CONSUMER_ID:
+      consumerID:
         type: string
         description: Consumer ID of the SSI Stock API server
-      FC_DATA_CONSUMER_SECRET:
+      consumerSecret:
         type: string
         description: Consumer secret of the SSI Stock API server
   commandFunction:
@@ -20,5 +20,5 @@ startCommand:
     |-
     (config) => ({ command: 'ssi-stock-mcp-server', env: { FC_DATA_CONSUMER_ID: config.consumerID, FC_DATA_CONSUMER_SECRET: config.consumerSecret } })
   exampleConfig:
-    FC_DATA_CONSUMER_ID: your_consumer_id
-    FC_DATA_CONSUMER_SECRET: your_api_key
+    consumerID: your_consumer_id
+    consumerSecret: your_api_key
