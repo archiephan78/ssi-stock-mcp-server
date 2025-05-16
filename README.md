@@ -128,8 +128,7 @@ $ docker run -p 8000:8000
         "-i",
         "-e", "FC_DATA_CONSUMER_ID",
         "-e", "FC_DATA_CONSUMER_SECRET",
-        "chungpht/ssi-stock-mcp-server
-```:latest"
+        "ghcr.io/archiephan78/ssi-stock-mcp-server:latest"
       ],
       "env": {
         "FC_DATA_CONSUMER_ID": "your_username",
