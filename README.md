@@ -112,7 +112,7 @@ FC_DATA_CONSUMER_SECRET=your_consumer_secret
 ```bash
 $ docker run -p 8000:8000 
              -e FC_DATA_CONSUMER_ID=id 
-             -e FC_DATA_CONSUMER_SECRET=id chungpht/ssi-stock-mcp-server
+             -e FC_DATA_CONSUMER_SECRET=id ghcr.io/archiephan78/ssi-stock-mcp-server
 ```
 
 - Running with Docker in Claude Desktop:
