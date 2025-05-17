@@ -343,7 +343,7 @@ def _process_index_list_response(response: Dict) -> Dict:
     return response
 
 @mcp.tool(
-    description="Get daily OHLC data for a specific symbol"
+    description="Get daily OHLC data for a specific symbol. Date format: DD/MM/YYYY"
 )
 async def get_daily_ohlc(symbol: str, from_date: str, to_date: str, 
                         page: int = 1, size: int = 100, ascending: bool = True) -> Dict:
@@ -431,7 +431,7 @@ def _process_ohlc_response(response: Dict) -> Dict:
     return response
 
 @mcp.tool(
-    description="Get intraday OHLC data for a specific symbol"
+    description="Get intraday OHLC data for a specific symbol. Date format: DD/MM/YYYY"
 )
 async def get_intraday_ohlc(symbol: str, from_date: str, to_date: str,
                             page: int = 1, size: int = 100, ascending: bool = True, 
@@ -525,7 +525,7 @@ def _process_intraday_ohlc_response( response: Dict) -> Dict:
     return response
 
 @mcp.tool(
-    description="Get daily index data"
+    description="Get daily index data( date format: DD/MM/YYYY)"
 )
 async def get_daily_index( from_date: str, to_date: str, channel_id: str = "123",
                         index: str = "VN100", page: int = 1, size: int = 100) -> Dict:
@@ -648,7 +648,7 @@ def _process_daily_index_response( response: Dict) -> Dict:
     return response
 
 @mcp.tool(
-    description="Get daily stock price data( include volume, value, foreign buy/sell volume, foreign buy/sell value, total buy/sell volume, total buy/sell value) for a specific symbol"
+    description="Get daily stock price data( include volume, value, foreign buy/sell volume, foreign buy/sell value, total buy/sell volume, total buy/sell value) for a specific symbol. Date format: DD/MM/YYYY"
 )
 async def get_stock_price(symbol: str, from_date: str, to_date: str,
                         page: int = 1, size: int = 100, exchange: str = "hose") -> Dict:
