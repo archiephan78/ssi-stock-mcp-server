@@ -60,15 +60,11 @@ def _process_securities_response(response: Dict) -> Dict:
         response["data"] = []
     return response
     
-def check_auth():
-    if not config.consumerID or not config.consumerSecret:
-        raise Exception("FC_DATA_CONSUMER_ID and FC_DATA_CONSUMER_SECRET are required for this operation.")
-
 @mcp.tool(
     description="Get list of securities from a specific market (HOSE/HNX/UPCOM/DER)"
 )
 async def get_securities_list(market: str, page: int = 1, size: int = 100) -> Dict:
-    check_auth()
+    
     """
     Get list of securities from a specified market.
     
@@ -108,7 +104,7 @@ async def get_securities_list(market: str, page: int = 1, size: int = 100) -> Di
     description="Get detailed information about a specific security"
 )
 async def get_securities_details(market: str, symbol: str, page: int = 1, size: int = 100) -> Dict:
-    check_auth()
+    
     """
     Get detailed information about a specific security.
     
@@ -211,7 +207,7 @@ def _process_securities_details_response(response: Dict) -> Dict:
     description="Get components of a specific index"
 )
 async def get_index_components(index: str = "vn100", page: int = 1, size: int = 100) -> Dict:
-    check_auth()
+    
     """
     Get components (constituent stocks) of a specific index.
     
@@ -284,7 +280,7 @@ def _process_index_components_response(response: Dict) -> Dict:
     description="Get list of indices for a specific exchange",
 )
 async def get_index_list(exchange: str = "hnx", page: int = 1, size: int = 100) -> Dict:
-    check_auth()
+    
     """
     Get list of indices for a specific exchange.
     
@@ -351,7 +347,7 @@ def _process_index_list_response(response: Dict) -> Dict:
 )
 async def get_daily_ohlc(symbol: str, from_date: str, to_date: str, 
                         page: int = 1, size: int = 100, ascending: bool = True) -> Dict:
-    check_auth()
+    
     """
     Get daily Open-High-Low-Close (OHLC) data for a specific security symbol.
     
@@ -440,7 +436,7 @@ def _process_ohlc_response(response: Dict) -> Dict:
 async def get_intraday_ohlc(symbol: str, from_date: str, to_date: str,
                             page: int = 1, size: int = 100, ascending: bool = True, 
                             interval: int = 1) -> Dict:
-    check_auth()
+    
     """
     Get intraday Open-High-Low-Close (OHLC) data for a specific security symbol by tick data.
     
@@ -533,7 +529,7 @@ def _process_intraday_ohlc_response( response: Dict) -> Dict:
 )
 async def get_daily_index( from_date: str, to_date: str, channel_id: str = "123",
                         index: str = "VN100", page: int = 1, size: int = 100) -> Dict:
-    check_auth()
+    
     """
     Get daily trading results of a composite index.
     
@@ -656,7 +652,7 @@ def _process_daily_index_response( response: Dict) -> Dict:
 )
 async def get_stock_price(symbol: str, from_date: str, to_date: str,
                         page: int = 1, size: int = 100, exchange: str = "hose") -> Dict:
-    check_auth()
+    
     """
     Get daily stock price data for a specific security symbol.
     
@@ -781,7 +777,8 @@ def setup_environment():
 
 def run_server():
     """Run the SSI Stock MCP server."""
-    # Bỏ gọi setup_environment để server luôn khởi động được, chỉ check khi thực thi tool
+    if not setup_environment():
+        sys.exit(1)
     print("Running server in standard mode...")
     mcp.run(transport="stdio")
 
