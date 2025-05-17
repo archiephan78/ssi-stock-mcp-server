@@ -95,7 +95,7 @@ FC_DATA_CONSUMER_SECRET=your_consumer_secret
 ```
 
 - Restart Claude Desktop to load new configuration.
-- You can now ask Claude to interact with Alertmanager using natual language:
+- You can now ask Claude to interact with data using natual language:
   - "chỉ số VN30 hôm nay có gì hot không"
   - "get volume room ngoại đã bán của SSI hôm nay"
   - "so sánh vol của SSI với VND trong ngày hôm nay"
@@ -152,6 +152,7 @@ The MCP server exposes tools:
 - Get intraday open,high,low,close: `get_intraday_ohlc()`
 - Get daily index: `get_daily_index()`
 - Get stock price: `get_stock_price()`
+
 See [src/ssi_stock_mcp_server/server.py](src/ssi_stock_mcp_server/server.py) for full API details.
 
 ## 5. Development
