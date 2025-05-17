@@ -648,7 +648,7 @@ def _process_daily_index_response( response: Dict) -> Dict:
     return response
 
 @mcp.tool(
-    description="Get daily stock price data for a specific symbol"
+    description="Get daily stock price data( include volume, value, foreign buy/sell volume, foreign buy/sell value, total buy/sell volume, total buy/sell value) for a specific symbol"
 )
 async def get_stock_price(symbol: str, from_date: str, to_date: str,
                         page: int = 1, size: int = 100, exchange: str = "hose") -> Dict:
