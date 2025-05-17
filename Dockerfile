@@ -29,3 +29,6 @@ LABEL org.opencontainers.image.title="SSI Stock intraday data MCP Server" \
     org.opencontainers.image.version="0.0.1" \
     org.opencontainers.image.source="https://github.com/archiephan78/ssi-stock-mcp-server" \
     org.opencontainers.image.licenses="Apache 2" \
+    org.opencontainers.image.authors="Chung Phan" \
+    org.opencontainers.image.url="https://github.com/archiephan78/ssi-stock-mcp-server" \
+    org.opencontainers.image.documentation="https://github.com/archiephan78/ssi-stock-mcp-server#readme"
