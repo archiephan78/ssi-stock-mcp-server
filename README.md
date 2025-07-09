@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/archiephan78-ssi-stock-mcp-server-badge.png)](https://mseep.ai/app/archiephan78-ssi-stock-mcp-server)
+
 <div align="center">
     <h1>SSI Stock Data MCP </h1>
     <p>
